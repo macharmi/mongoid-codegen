@@ -7,6 +7,12 @@ unless ARGV.length >= 1
   exit
 end
 
+# create folder structures
+ARGV[1].to_s == "" ? location= "./" : location = ARGV[1] + '/'
+!Dir.exists?(location + "models") ? Dir.mkdir(location + "models") : nil
+!Dir.exists?(location + "views") ? Dir.mkdir(location + "views") : nil
+
+
 # open file
 begin
     file = File.read(ARGV[0]) 
