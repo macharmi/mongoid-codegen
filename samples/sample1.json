@@ -1,0 +1,44 @@
+{
+    "documents": [
+        {
+            "name": "User",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "integer"
+                },
+                {
+                    "name": "forename",
+                    "type": "char",
+                    "size": "50"
+                },
+                {
+                    "name": "lastname",
+                    "type": "char",
+                    "size": "50"                
+                },
+                {
+                    "name": "mail",
+                    "type": "mail",
+                    "constraints": "unique"
+                },
+                {
+                    "name": "birthdate",
+                    "type": "date"              
+                },
+                {
+                    "name": "gender",
+                    "type": "enum",
+                    "values": [
+                        {
+                            "value": "male"
+                        },
+                        {
+                            "value": "female"
+                        }                        
+                    ]
+                }
+            ]
+        }
+    ]
+}
