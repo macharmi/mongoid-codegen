@@ -1,5 +1,5 @@
 require 'json'
-
+require_relative 'functions'
 
 # check program arguments
 unless ARGV.length >= 1
@@ -31,9 +31,6 @@ end
 
 # browse json structure and generate classes code
 specs['documents'].each{|doc|
-    classname = doc['name']
-    doc['fields'].each{ |field|
-        puts field['name']
-    }
+    File.write(location + "models/" + doc['name'].downcase + '.rb', generate_class(doc))
 }
 
