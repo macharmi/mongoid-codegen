@@ -42,6 +42,6 @@ specs['documents'].each{|doc|
     !Dir.exists?(location + "views/" + doc['name'].downcase) ? Dir.mkdir(location + "views/" + doc['name'].downcase) : nil
     
     # create html views
-    
+    File.write(location + "views/" + doc['name'].downcase + '/form.htm', generate_form(doc))
 }
 

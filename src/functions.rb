@@ -17,3 +17,15 @@ def generate_class doc
     code += 'end'
     return code
 end
+        
+# Generate html form - view
+
+def generate_form doc
+    code = "<form>"
+    doc['fields'].each{ |field|
+        code = code + "\t#{field['name'].capitalize}:<input ng-model='#{field['name']}' name='#{field['name']}' type='text'/><br/>\n"
+    }
+    code = code + "<input type='submit' value='Submit'>\n"
+    code = code + "<form>"
+    return code
+end
