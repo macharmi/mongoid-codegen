@@ -23,7 +23,7 @@ end
 def generate_form doc
     code = "<form>"
     doc['fields'].each{ |field|
-        code = code + "\t#{field['name'].capitalize}:<input ng-model='#{field['name']}' name='#{field['name']}' type='text'/><br/>\n"
+        code = code + "\t#{field['name'].capitalize}:<br/><input ng-model='#{field['name']}' name='#{field['name']}' type='text'/><br/>\n"
     }
     code = code + "<input type='submit' value='Submit'>\n"
     code = code + "<form>"
