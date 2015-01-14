@@ -1,7 +1,7 @@
 require 'json'
 require_relative 'functions'
 require_relative 'classes/app'
-
+require_relative 'classes/entity'
 
 # check program arguments
 unless ARGV.length >= 1
@@ -13,9 +13,21 @@ ARGV[1].to_s == "" ? location= "./" : location = ARGV[1] + '/'
 
 app = App.new(ARGV[0],location)
 
-# create folder structures
-app.create_folders
+if app.load then
 
+    # create folder structures
+    app.create_folders
+
+    # create mongoid entity classes
+    app.create_entities
+    
+    # create html views
+    app.create_html_views
+    
+    # create view folder
+    app.create_view_folder
+    exit
+end
 
 # open file
 begin
