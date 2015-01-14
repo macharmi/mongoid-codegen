@@ -1,4 +1,5 @@
 require 'json'
+require 'fileutils'
 require_relative 'classes/app'
 require_relative 'classes/entity'
 
@@ -16,6 +17,7 @@ if app.load then
 
     # create folder structures
     app.create_folders
+    app.move_files
 
     # create mongoid entity classes
     app.create_entities

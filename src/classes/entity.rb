@@ -25,4 +25,11 @@ class Entity
         code = code + "<form>"
         return code
     end    
+
+    def translate_type type 
+        res = case type.downcase
+            when "char","string" then "String"
+            when "int","integer" then "Integer"
+        end
+    end
 end

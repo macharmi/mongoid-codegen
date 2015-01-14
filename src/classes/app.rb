@@ -17,6 +17,14 @@ class App
         !Dir.exists?(@output_path + "public/js") ? Dir.mkdir(@output_path + "public/js") : nil
     end
     
+    def move_files
+        FileUtils.cp("./views/index.erb", "#{@output_path}views/layout")
+        FileUtils.cp("./views/nav.erb", "#{@output_path}views/layout")
+        FileUtils.cp("./views/sidebar.erb", "#{@output_path}views/layout")
+        FileUtils.cp("./views/footer.erb", "#{@output_path}views/layout")
+        FileUtils.cp("./config/db.yml", "#{@output_path}config")
+    end
+    
     # open specifications file and load it to a json structure
     def load 
         begin

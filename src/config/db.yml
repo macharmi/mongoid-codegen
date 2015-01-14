@@ -1,0 +1,6 @@
+development:
+  sessions:
+    default:
+      database: test01
+      hosts:
+        - 192.168.1.7
