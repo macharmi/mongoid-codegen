@@ -18,11 +18,13 @@ class App
     end
     
     def move_files
-        FileUtils.cp("./views/index.erb", "#{@output_path}views/layout")
-        FileUtils.cp("./views/nav.erb", "#{@output_path}views/layout")
-        FileUtils.cp("./views/sidebar.erb", "#{@output_path}views/layout")
-        FileUtils.cp("./views/footer.erb", "#{@output_path}views/layout")
-        FileUtils.cp("./config/db.yml", "#{@output_path}config")
+        FileUtils.cp("./ressources/index.erb", "#{@output_path}views/layout")
+        FileUtils.cp("./ressources/nav.erb", "#{@output_path}views/layout")
+        FileUtils.cp("./ressources/sidebar.erb", "#{@output_path}views/layout")
+        FileUtils.cp("./ressources/footer.erb", "#{@output_path}views/layout")
+        FileUtils.cp("./ressources/db.yml", "#{@output_path}config")
+        FileUtils.cp("./ressources/style.css", "#{@output_path}/public/css")
+        FileUtils.cp("./ressources/app.rb", "#{@output_path}")
     end
     
     # open specifications file and load it to a json structure
