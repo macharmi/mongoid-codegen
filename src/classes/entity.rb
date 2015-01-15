@@ -32,4 +32,19 @@ class Entity
             when "int","integer" then "Integer"
         end
     end
+            
+    def gen_controllers 
+        # Each entity should implement at least the following operations
+        
+        # get /entity/get/:id
+        # get /entity/index
+        # get /entity/create
+        # get /entity/update
+        # post /entity/search
+        # post /entity/update
+        # post /entity/new
+        # post /entity/delete        
+        
+    end
+    
 end
