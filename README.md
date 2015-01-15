@@ -29,5 +29,12 @@ mongoid-codegen reads input files containing a minimal description of different 
 | app.erb
 ```
 
+# Third parties
+* Twitter Bootstrap v 3.1.1
+* jquery v 2.1.3
+* angularjs 1.3.5
+* sinatra (1.4.5)
+* mongoid (3.1.6)
+
 # Authors
 MedAli Charmi
