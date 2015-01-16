@@ -17,7 +17,7 @@ mongoid-codegen reads input files containing a minimal description of different 
 | | css
 | | | style.css
 | | js
-| | | app.css
+| | | app.js
 | views
 | | entity
 | | | form.html
@@ -32,9 +32,9 @@ mongoid-codegen reads input files containing a minimal description of different 
 # Third parties
 * Twitter Bootstrap v 3.1.1
 * jquery v 2.1.3
-* angularjs 1.3.5
-* sinatra (1.4.5)
-* mongoid (3.1.6)
+* angularjs v 1.3.5
+* sinatra v 1.4.5
+* mongoid v 3.1.6
 
 # Authors
 MedAli Charmi
