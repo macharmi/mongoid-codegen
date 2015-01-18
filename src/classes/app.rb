@@ -25,6 +25,7 @@ class App
         FileUtils.cp("./ressources/db.yml", "#{@output_path}config")
         FileUtils.cp("./ressources/style.css", "#{@output_path}/public/css")
         FileUtils.cp("./ressources/app.rb", "#{@output_path}")
+        FileUtils.cp("./ressources/Gemfile", "#{@output_path}")
     end
     
     # open specifications file and load it to a json structure
