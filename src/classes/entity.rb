@@ -37,9 +37,31 @@ class Entity
         # Each entity should implement at least the following operations
         
         code = ""
-        code = code + "get '/entity/get/:id'\n"
-        code = code + "end"
+        code = code + "get '/#{@doc['name'].downcase}/get/:id' do\n"
+        code = code + "\tparams[:id]\n"
+        code = code + "end\n\n"
+
+        code = code + "post '/#{@doc['name'].downcase}/new' do \n"
+        code = code + "\t" + @doc['name'].downcase.capitalize + '.create('
+        @doc['fields'].each{ |field|
+            code = code + "\t\t:" + field["name"] +" => params[:" + field["name"] + "]"
+            if field != @doc['fields'].last
+                code +=",\n"
+            end
+        }
+        code += "\n\t)\n"
+        code = code + "end\n\n"
+        
+        code += "get '/#{@doc['name'].downcase}/create' do\n"
+        code += "\tcontent = File.read('views/#{@doc['name'].downcase}/add.htm' )\n" 
+        code += "\terb 'layout/index'.to_sym,  :locals => {:title => 'New #{@doc['name'].downcase.capitalize}', :content => content}\n" 
+        code = code + "end\n\n"
+            
+        
         return code
+        
+        
+        
         
         # get /entity/get/:id
         # get /entity/index
