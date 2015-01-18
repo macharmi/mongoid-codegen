@@ -9,6 +9,13 @@ set :partial_template_engine, :erb
 set :port, 80
 
 #<<include_models>>
+
+# cope with css relative paths
+get %r{.*/css/style.css} do
+    redirect('css/style.css')
+end
+
+
     
 get "/" do
   erb 'layout/index'.to_sym,  :locals => {:title => "Mongoid-Codegen Project", :content => "This is page content"} 
