@@ -27,4 +27,9 @@ if app.load then
     
     # create view folder
     app.create_view_folder
+    
+    # create controllers
+    app.create_controllers
+    
+    
 end

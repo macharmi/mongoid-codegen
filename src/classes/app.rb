@@ -9,6 +9,7 @@ class App
     # create folder structures 
     def create_folders 
         !Dir.exists?(@output_path + "models") ? Dir.mkdir(@output_path + "models") : nil
+        !Dir.exists?(@output_path + "controllers") ? Dir.mkdir(@output_path + "controllers") : nil
         !Dir.exists?(@output_path + "views") ? Dir.mkdir(@output_path + "views") : nil
         !Dir.exists?(@output_path + "views/layout") ? Dir.mkdir(@output_path + "views/layout") : nil
         !Dir.exists?(@output_path + "config") ? Dir.mkdir(@output_path + "config") : nil
@@ -61,6 +62,22 @@ class App
             File.write(@output_path + "views/" + doc['name'].downcase + '/add.htm', entity.create_form)
         }
     end
+
+    # create controllers
+    def create_controllers
+        data = File.read(@output_path + 'app.rb') 
+        filtered_data = ""
+        @specs['documents'].each{|doc|
+            entity = Entity.new(doc)
+            File.write(@output_path + "controllers/" + doc['name'].downcase + '.rb', entity.generate_controllers)
+            filtered_data = data.gsub("<<include_models>>", "<<include_models>>\n" + "load 'controllers/#{doc['name'].downcase }.rb'\n") 
+        }
+        File.open(@output_path + 'app.rb', "w") do |f|
+            f.write(filtered_data)
+        end
+
+    end
+
     
     # create view folder
     def create_view_folder

@@ -33,8 +33,13 @@ class Entity
         end
     end
             
-    def gen_controllers 
+    def generate_controllers 
         # Each entity should implement at least the following operations
+        
+        code = ""
+        code = code + "get '/entity/get/:id'\n"
+        code = code + "end"
+        return code
         
         # get /entity/get/:id
         # get /entity/index
