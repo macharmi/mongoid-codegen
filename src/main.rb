@@ -22,11 +22,11 @@ if app.load then
     # create mongoid entity classes
     app.create_entities
     
-    # create html views
-    app.create_html_views
-    
     # create view folder
     app.create_view_folder
+    
+    # create html views
+    app.create_html_views
     
     # create controllers
     app.create_controllers

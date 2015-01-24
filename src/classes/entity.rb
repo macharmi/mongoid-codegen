@@ -10,7 +10,7 @@ class Entity
         code = code + 'class ' + @doc['name'].downcase.capitalize + "\n"
         code += "\tinclude Mongoid::Document\n"
         @doc['fields'].each{ |field|
-            code = code + "\tfield :" + field["name"]+( translate_type(field["type"]).to_s != "" ? ",type " + translate_type(field["type"]) : "") + "\n"
+            code = code + "\tfield :" + field["name"]+( translate_type(field["type"]).to_s != "" ? ",type: " + translate_type(field["type"]) : "") + "\n"
         }
         code += 'end'
         return code
