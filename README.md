@@ -38,3 +38,6 @@ mongoid-codegen reads input files containing a minimal description of different 
 
 # Authors
 MedAli Charmi
+
+# License 
+MIT
