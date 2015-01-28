@@ -2,7 +2,7 @@ require 'json'
 require 'fileutils'
 require_relative 'classes/app'
 require_relative 'classes/entity'
-
+require_relative 'classes/angular'
 # check program arguments
 unless ARGV.length >= 1
   puts "Error: this program requires the path of a json file as argument"
@@ -30,6 +30,9 @@ if app.load then
     
     # create controllers
     app.create_controllers
+
+    # create view routes
+    app.create_routes
     
     
 end

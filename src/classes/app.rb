@@ -79,7 +79,22 @@ class App
 
     end
 
-    
+    def create_routes
+        @specs['documents'].each{|doc|
+            entity = Entity.new(doc)
+            Angular.addRoute(@output_path + "public/js/app.js","/#{ doc['name'].downcase}/new",
+                "views/#{ doc['name'].downcase}/form.htm", "#{ doc['name'].downcase.capitalize}Controller");
+            Angular.addRoute(@output_path + "public/js/app.js","/#{ doc['name'].downcase}/edit",
+                "views/#{ doc['name'].downcase}/form.htm", "#{ doc['name'].downcase.capitalize}Controller");
+            Angular.addRoute(@output_path + "public/js/app.js","/#{ doc['name'].downcase}/:id",
+                "views/#{ doc['name'].downcase}/user.htm", "#{ doc['name'].downcase.capitalize}Controller");
+            Angular.addRoute(@output_path + "public/js/app.js","/#{ doc['name'].downcase}/index",
+                "views/#{ doc['name'].downcase}/index.htm", "#{ doc['name'].downcase.capitalize}Controller");
+
+        }
+    end
+
+
     # create view folder
     def create_view_folder
         @specs['documents'].each{|doc|
