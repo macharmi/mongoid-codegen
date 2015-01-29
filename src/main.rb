@@ -32,7 +32,8 @@ if app.load then
     app.create_controllers
 
     # create view routes
-    app.create_routes
-    
-    
+    app.create_angular_routes
+
+    # create controllers
+    app.create_angular_controllers    
 end

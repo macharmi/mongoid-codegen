@@ -79,7 +79,7 @@ class App
 
     end
 
-    def create_routes
+    def create_angular_routes
         @specs['documents'].each{|doc|
             entity = Entity.new(doc)
             Angular.addRoute(@output_path + "public/js/app.js","/#{ doc['name'].downcase}/new",
@@ -90,7 +90,15 @@ class App
                 "views/#{ doc['name'].downcase}/user.htm", "#{ doc['name'].downcase.capitalize}Controller");
             Angular.addRoute(@output_path + "public/js/app.js","/#{ doc['name'].downcase}/index",
                 "views/#{ doc['name'].downcase}/index.htm", "#{ doc['name'].downcase.capitalize}Controller");
+        }
+    end
 
+    def create_angular_controllers
+        @specs['documents'].each{|doc|
+            Angular.addController(  @output_path + "public/js/app.js", 
+                                    'myApp',
+                                    "#{ doc['name'].downcase.capitalize}Controller",
+                                    ['$routeParams', '$location', '$window', 'AppService'])
         }
     end
 

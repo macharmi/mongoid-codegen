@@ -56,41 +56,8 @@ myApp.controller('SideBarController', function($scope, $routeParams, $location, 
 });
 
 /* <<include_entities_controllers>> */
-myApp.controller('UserController', function($scope, $routeParams, $location, AppService)
-{
 
-	// /user/add
-	$scope.UserAdd = function(user){
-		AppService.post('/user/add', $.param(user))
-		.then(
-			function(res){
-				alert(res);
-			},
-			function(err){
-				alert(err);
-			}
-		)
-	}
 
-	if ($location.path().indexOf('/user/update') > -1){
-		null;
-	}
-	else if($location.path().indexOf('/user/create') > -1){
-		null;
-	}
-	else if($location.path().indexOf('/user/get') > -1){
-		id = $routeParams.id;
-		AppService.get('/user/get/' + id)		
-		.then(
-			function(res){
-				$scope.CurrentUser = res;
-			},
-			function(err){
-				
-			}
-		)
-	}
-});
 
 
 // define application routes
