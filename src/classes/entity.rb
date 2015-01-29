@@ -17,9 +17,9 @@ class Entity
     end
     
     def create_form
-        code = "<form>"
+        code = "<form ng-submit='#{@doc['name'].downcase.capitalize}Add(#{@doc['name'].downcase})'>\n"
         @doc['fields'].each{ |field|
-            code = code + "\t#{field['name'].capitalize}:<br/><input ng-model='#{field['name']}' name='#{field['name']}' type='text'/><br/>\n"
+            code = code + "\t#{field['name'].capitalize}:<br/><input ng-model='#{@doc['name'].downcase}.#{field['name']}' name='#{field['name']}' type='text'/><br/>\n"
         }
         code = code + "<input type='submit' value='Submit'>\n"
         code = code + "<form>"

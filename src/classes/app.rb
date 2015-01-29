@@ -60,7 +60,7 @@ class App
     def create_html_views
         @specs['documents'].each{|doc|
             entity = Entity.new(doc)
-            File.write(@output_path + "views/" + doc['name'].downcase + '/add.htm', entity.create_form)
+            File.write(@output_path + "views/" + doc['name'].downcase + '/form.htm', entity.create_form)
         }
     end
 
