@@ -51,8 +51,14 @@ class App
     # create mongoid entity classes
     def create_entities
         @specs['documents'].each{|doc|
+            data = File.read(@output_path + 'app.rb') 
+            newdata = ""
             entity = Entity.new(doc)
             File.write(@output_path + "models/" + doc['name'].downcase + '.rb', entity.generate_class)
+            filtered_data = data.gsub("<<include_models>>", "<<include_models>>\n" + "load 'models/#{doc['name'].downcase }.rb'\n") 
+            File.open(@output_path + 'app.rb', "w") do |f|
+                f.write(filtered_data)
+            end
         }
     end
     
@@ -69,16 +75,18 @@ class App
         data = File.read(@output_path + 'app.rb') 
         filtered_data = ""
         @specs['documents'].each{|doc|
+            data = File.read(@output_path + 'app.rb') 
+            filtered_data = ""
             entity = Entity.new(doc)
             File.write(@output_path + "controllers/" + doc['name'].downcase + '.rb', entity.generate_controllers)
-            filtered_data = data.gsub("<<include_models>>", "<<include_models>>\n" + "load 'controllers/#{doc['name'].downcase }.rb'\n") 
+            filtered_data = data.gsub("<<include_controllers>>", "<<include_controllers>>\n" + "load 'controllers/#{doc['name'].downcase }.rb'\n") 
+            File.open(@output_path + 'app.rb', "w") do |f|
+                f.write(filtered_data)
+            end
         }
-        File.open(@output_path + 'app.rb', "w") do |f|
-            f.write(filtered_data)
-        end
-
     end
 
+    # create angular routes
     def create_angular_routes
         @specs['documents'].each{|doc|
             entity = Entity.new(doc)
@@ -86,19 +94,28 @@ class App
                 "views/#{ doc['name'].downcase}/form.htm", "#{ doc['name'].downcase.capitalize}Controller");
             Angular.addRoute(@output_path + "public/js/app.js","/#{ doc['name'].downcase}/edit",
                 "views/#{ doc['name'].downcase}/form.htm", "#{ doc['name'].downcase.capitalize}Controller");
-            Angular.addRoute(@output_path + "public/js/app.js","/#{ doc['name'].downcase}/:id",
+            Angular.addRoute(@output_path + "public/js/app.js","/#{ doc['name'].downcase}/get/:id",
                 "views/#{ doc['name'].downcase}/user.htm", "#{ doc['name'].downcase.capitalize}Controller");
             Angular.addRoute(@output_path + "public/js/app.js","/#{ doc['name'].downcase}/index",
                 "views/#{ doc['name'].downcase}/index.htm", "#{ doc['name'].downcase.capitalize}Controller");
         }
     end
 
+    # create angular controllers
     def create_angular_controllers
         @specs['documents'].each{|doc|
             Angular.addController(  @output_path + "public/js/app.js", 
                                     'myApp',
                                     "#{ doc['name'].downcase.capitalize}Controller",
                                     ['$routeParams', '$location', '$window', 'AppService'])
+        }
+    end
+
+    # populate angular controllers
+    def populate_angular_controllers
+        @specs['documents'].each{|doc|
+            entity = Entity.new(doc)
+            Angular.populate_controller(@output_path + "public/js/app.js", entity)
         }
     end
 

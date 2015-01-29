@@ -36,4 +36,5 @@ if app.load then
 
     # create controllers
     app.create_angular_controllers    
+    app.populate_angular_controllers
 end

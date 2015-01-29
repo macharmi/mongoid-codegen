@@ -4,6 +4,10 @@ class Entity
         @doc = doc
     end
 
+    def name
+        return @doc['name']
+    end
+
     # Generate a class with documents fields
     def generate_class
         code = "require 'mongoid'" + "\n"
@@ -21,8 +25,8 @@ class Entity
         @doc['fields'].each{ |field|
             code = code + "\t#{field['name'].capitalize}:<br/><input ng-model='#{@doc['name'].downcase}.#{field['name']}' name='#{field['name']}' type='text'/><br/>\n"
         }
-        code = code + "<input type='submit' value='Submit'>\n"
-        code = code + "<form>"
+        code = code + "<input type='submit' value='Submit'/>\n"
+        code = code + "</form>"
         return code
     end    
 

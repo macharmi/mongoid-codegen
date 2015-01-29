@@ -7,6 +7,7 @@ Mongoid.load!('config/db.yml',:development)
 
 set :partial_template_engine, :erb
 set :port, 80
+#<<include_controllers>>
 
 #<<include_models>>
 
