@@ -21,14 +21,50 @@ class Entity
     end
     
     def create_form
-        code = "<form ng-submit='#{@doc['name'].downcase.capitalize}Add(#{@doc['name'].downcase})'>\n"
+        code = "{{message}}\n"
+        code += "<form ng-submit='action(#{@doc['name'].downcase})' ng-show='!message'>\n"
         @doc['fields'].each{ |field|
-            code = code + "\t#{field['name'].capitalize}:<br/><input ng-model='#{@doc['name'].downcase}.#{field['name']}' name='#{field['name']}' type='text'/><br/>\n"
-        }
+            if field['name'] == 'id' then
+                 code += "\t<span ng-show=\"location.indexOf('/#{@doc['name'].downcase}/edit') < 0 \">\n\t"
+            end
+             code = code + "\t#{field['name'].capitalize}:<br/><input ng-model='#{@doc['name'].downcase}.#{field['name']}' name='#{field['name']}' type='text'/><br/>\n"
+ 
+            if field['name'] == 'id' then
+                code += "\t</span>\n"
+            end
+         }
         code = code + "<input type='submit' value='Submit'/>\n"
         code = code + "</form>"
         return code
     end    
+    
+    def create_list
+        code = "<h3>#{@doc['name'].downcase.capitalize} list</h3>\n"
+        code += "{{message}}\n"
+        code += "<div class='table-responsive'>\n"
+        code += "\t<table class='table'>\n"
+        code += "\t\t<thead>\n"
+        code += "\t\t\t<tr>\n"
+        @doc['fields'].each{ |field|
+            code += "\t\t\t\t<th>#{field['name'].capitalize}</th>\n"
+        }
+        code += "\t\t\t\t<th><span class='fa fa-pencil fa-lg'></span></th>\n"
+        code += "\t\t\t\t<th><span class='fa fa-scissors fa-lg'></th>\n"
+        code += "\t\t\t</tr>\n"
+        code += "\t\t</thead>\n"
+        code += "\t\t<tbody>\n"
+        code += "\t\t\t<tr ng-repeat='#{@doc['name'].downcase} in #{@doc['name'].downcase}s'>\n"
+        @doc['fields'].each{ |field|
+            code += "\t\t\t\t<td>#{@doc['name'].downcase}.#{field['name']}</td>\n"
+        }
+        code += "\t\t\t\t<td><a  class='fa fa-pencil fa-lg' href='/#/#{@doc['name'].downcase}/edit/{{#{@doc['name'].downcase}.id.$oid}}'></a></td>\n"
+        code += "\t\t\t\t<td><a class='fa fa-scissors fa-lg' href='/#/#{@doc['name'].downcase}/delete/{{#{@doc['name'].downcase}.id.$oid}}'></a></td>\n"
+        code += "\t\t\t</tr>\n"        
+        code += "\t\t</tbody>\n"
+        code += "\t</table>\n"
+        code += "</div>\n"
+        return code
+    end
 
     def translate_type type 
         res = case type.downcase

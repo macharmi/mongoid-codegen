@@ -67,6 +67,7 @@ class App
         @specs['documents'].each{|doc|
             entity = Entity.new(doc)
             File.write(@output_path + "views/" + doc['name'].downcase + '/form.htm', entity.create_form)
+            File.write(@output_path + "views/" + doc['name'].downcase + '/index.htm', entity.create_list)
         }
     end
 
@@ -95,7 +96,7 @@ class App
             Angular.addRoute(@output_path + "public/js/app.js","/#{ doc['name'].downcase}/edit",
                 "views/#{ doc['name'].downcase}/form.htm", "#{ doc['name'].downcase.capitalize}Controller");
             Angular.addRoute(@output_path + "public/js/app.js","/#{ doc['name'].downcase}/get/:id",
-                "views/#{ doc['name'].downcase}/user.htm", "#{ doc['name'].downcase.capitalize}Controller");
+                "views/#{ doc['name'].downcase}/#{doc['name'].downcase}.htm", "#{ doc['name'].downcase.capitalize}Controller");
             Angular.addRoute(@output_path + "public/js/app.js","/#{ doc['name'].downcase}/index",
                 "views/#{ doc['name'].downcase}/index.htm", "#{ doc['name'].downcase.capitalize}Controller");
         }
