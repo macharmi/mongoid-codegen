@@ -72,7 +72,7 @@ class Entity
             when "int","integer" then "Integer"
         end
     end
-            
+    
     def generate_controllers 
         # Each entity should implement at least the following operations
         

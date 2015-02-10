@@ -1,5 +1,48 @@
+ANGULAR_EDIT = "
+    	$scope.((Entity))Edit = function(((entity))){
+		AppService.post('/((entity))/edit', $.param(((entity))))
+		.then(
+			function(res){
+				$location.path('/((entity))/get/' + ((entity)).id.$oid);
+			},
+			function(err){
+				alert(err);
+			}
+		)
+	}
+"
+
+
+ANGULAR_ADD = "
+	$scope.((Entity))Add = function(((entity))){
+		AppService.post('/((entity))/add', $.param(((entity))))
+		.then(
+			function(res){
+				$location.path('/((entity))/get/' + res.id.$oid);
+			},
+			function(err){
+				$scope.message = err
+			}
+		)
+	}
+"
+
+ANGULAR_INDEX = "
+	$scope.Get = function(((entity))){
+		AppService.get('/((entity))/index')
+		.then(
+			function(res){
+				return res;
+			},
+			function(err){
+				return(err);
+			}
+		)
+"
+
+
 class Angular
-	def self.addRoute(file, route, template,controller)
+    def self.addRoute(file, route, template,controller)
 		code =	"\t\t\t.when('#{route}', {\n"
 		code +=	"\t\t\t\ttemplateUrl: '#{template}',\n"
 		code +=	"\t\t\t\tcontroller: '#{controller}'\n"
@@ -23,26 +66,34 @@ class Angular
 	    end
 	end 	
 
-
-	def self.populate_controller (file, entity)
-		controller_name = "#{entity.name.downcase.capitalize}Controller"
+    def self.injectControllerCode(file, entity, code)
+        marker = "/*<<#{entity.name.downcase.capitalize}Controller code>>*/"
 		data = File.read(file)
-
-		code = "\n\t$scope.#{entity.name.downcase.capitalize}Add = function(#{entity.name.downcase}){"
-		code += "\n\t\tAppService.post('/#{entity.name.downcase}/new', $.param(#{entity.name.downcase}))"
-		code += "\n\t\t.then("
-		code += "\n\t\t\tfunction(res){"
-		code += "\n\t\t\t\talert(res);"
-		code += "\n\t\t\t},"
-		code += "\n\t\t\tfunction(err){"
-		code += "\n\t\t\t\talert(err);"
-		code += "\n\t\t\t}"
-		code += "\n\t\t)"
-		code += "\n\t}"
-		newdata = data.gsub("/*<<#{controller_name} code>>*/", "/*<<#{controller_name} code>>*/" + code)
-	    File.open(file, "w") do |f|
+        newdata = data.gsub(marker, marker + code)
+        File.open(file, "w") do |f|
 	        f.write(newdata)	
 	    end
-	end
+    end
+    
+    def self.addEntity(path, entity)
+        code = ANGULAR_ADD
+        code = code.gsub("((entity))",entity.name.downcase)
+        code = code.gsub("((Entity))",entity.name.downcase)
+        self.injectControllerCode(path,entity,code)
+    end
+
+    def self.indexEntity(path, entity)
+        code = ANGULAR_INDEX
+        code = code.gsub("((entity))",entity.name.downcase)
+        code = code.gsub("((Entity))",entity.name.downcase)
+        self.injectControllerCode(path,entity,code)
+    end    
+
+    def self.editEntity(path, entity)
+        code = ANGULAR_EDIT
+        code = code.gsub("((entity))",entity.name.downcase)
+        code = code.gsub("((Entity))",entity.name.downcase)
+        self.injectControllerCode(path,entity,code)
+    end
 end
 
