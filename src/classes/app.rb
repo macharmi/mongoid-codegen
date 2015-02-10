@@ -93,7 +93,7 @@ class App
             entity = Entity.new(doc)
             Angular.addRoute(@output_path + "public/js/app.js","/#{ doc['name'].downcase}/new",
                 "views/#{ doc['name'].downcase}/form.htm", "#{ doc['name'].downcase.capitalize}Controller");
-            Angular.addRoute(@output_path + "public/js/app.js","/#{ doc['name'].downcase}/edit",
+            Angular.addRoute(@output_path + "public/js/app.js","/#{ doc['name'].downcase}/edit/:id",
                 "views/#{ doc['name'].downcase}/form.htm", "#{ doc['name'].downcase.capitalize}Controller");
             Angular.addRoute(@output_path + "public/js/app.js","/#{ doc['name'].downcase}/get/:id",
                 "views/#{ doc['name'].downcase}/#{doc['name'].downcase}.htm", "#{ doc['name'].downcase.capitalize}Controller");

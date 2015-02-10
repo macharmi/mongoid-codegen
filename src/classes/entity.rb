@@ -55,7 +55,11 @@ class Entity
         code += "\t\t<tbody>\n"
         code += "\t\t\t<tr ng-repeat='#{@doc['name'].downcase} in #{@doc['name'].downcase}s'>\n"
         @doc['fields'].each{ |field|
-            code += "\t\t\t\t<td>#{@doc['name'].downcase}.#{field['name']}</td>\n"
+            if field['name'] == 'id' then
+                code += "\t\t\t\t<td>{{#{@doc['name'].downcase}.#{field['name']}.$oid}}</td>\n"
+            else
+                code += "\t\t\t\t<td>{{#{@doc['name'].downcase}.#{field['name']}}}</td>\n"
+            end
         }
         code += "\t\t\t\t<td><a  class='fa fa-pencil fa-lg' href='/#/#{@doc['name'].downcase}/edit/{{#{@doc['name'].downcase}.id.$oid}}'></a></td>\n"
         code += "\t\t\t\t<td><a class='fa fa-scissors fa-lg' href='/#/#{@doc['name'].downcase}/delete/{{#{@doc['name'].downcase}.id.$oid}}'></a></td>\n"
@@ -77,41 +81,48 @@ class Entity
         # Each entity should implement at least the following operations
         
         code = ""
-        code = code + "get '/#{@doc['name'].downcase}/get/:id' do\n"
-        code = code + "\tparams[:id]\n"
-        code = code + "end\n\n"
+        code += "get '/#{@doc['name'].downcase}/get/:id' do\n"
+  	    code += "\t#{@doc['name'].downcase} = #{@doc['name'].downcase.capitalize}.where(id: params[:id])\n" 
+        code += "\t#{@doc['name'].downcase}.first.to_json\n"
+        code += "end\n\n"
 
-        code = code + "post '/#{@doc['name'].downcase}/new' do \n"
-        code = code + "\t" + @doc['name'].downcase.capitalize + '.create('
+        code += "post '/#{@doc['name'].downcase}/new' do \n"
+        code += "\t" + @doc['name'].downcase.capitalize + '.create('
         @doc['fields'].each{ |field|
-            code = code + "\t\t:" + field["name"] +" => params[:" + field["name"] + "]"
-            if field != @doc['fields'].last
-                code +=",\n"
+            if field["name"] != "id" then
+                code = code + "\t\t:" + field["name"] +" => params[:" + field["name"] + "]"
+                if field != @doc['fields'].last
+                    code +=",\n"
+                end
             end
         }
         code += "\n\t)\n"
-        code = code + "end\n\n"
-        
+        code += "end\n\n"
+
+        code += "post '/#{@doc['name'].downcase}/edit' do \n"
+        code += "#{@doc['name'].downcase} = #{@doc['name'].downcase.capitalize}.where(id: params[:id][:$oid]).first"
+        code += "\t" + @doc['name'].downcase + '.update_attributes('
+        @doc['fields'].each{ |field|
+            if field["name"] != "id" then
+                code = code + "\t\t:" + field["name"] +" => params[:" + field["name"] + "]"
+                if field != @doc['fields'].last
+                    code +=",\n"
+                end
+            end
+        }
+            
+        code += "\n\t)\n"
+        code += "end\n\n"
         code += "get '/#{@doc['name'].downcase}/create' do\n"
         code += "\tcontent = File.read('views/#{@doc['name'].downcase}/add.htm' )\n" 
         code += "\terb 'layout/index'.to_sym,  :locals => {:title => 'New #{@doc['name'].downcase.capitalize}', :content => content}\n" 
-        code = code + "end\n\n"
+        code += "end\n\n"
+        
             
+        code += "get '/#{@doc['name'].downcase}/index' do\n"
+        code += "\t#{@doc['name'].downcase.capitalize}.all.to_json\n"
+        code += "end\n\n"
         
         return code
-        
-        
-        
-        
-        # get /entity/get/:id
-        # get /entity/index
-        # get /entity/create
-        # get /entity/update
-        # post /entity/search
-        # post /entity/update
-        # post /entity/new
-        # post /entity/delete        
-        
-    end
-    
+    end    
 end

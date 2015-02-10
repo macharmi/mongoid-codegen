@@ -1,34 +1,34 @@
-	if ($location.path().indexOf('//edit') > -1){
+	if ($location.path().indexOf('/((entity))/edit') > -1){
 		id = $routeParams.id;
-		AppService.get('//get/' + id)		
+		AppService.get('/((entity))/get/' + id)		
 		.then(
 			function(res){
-				$scope. = res;
+				$scope.((entity)) = res;
 			},
 			function(err){
 				
 			}
 		)
 		$
-		$scope.action = function(){
-			$scope.((Entity))Edit()
+		$scope.action = function(((entity))){
+			$scope.((Entity))Edit(((entity)))
 		}
 	}
-	else if($location.path().indexOf('//new') > -1){
-		$scope.action = function(){
-			$scope.((Entity))Add()
+	else if($location.path().indexOf('/((entity))/new') > -1){
+		$scope.action = function(((entity))){
+			$scope.((Entity))Add(((entity)))
 		}
 	}
-	else if($location.path().indexOf('//delete') > -1){
+	else if($location.path().indexOf('/((entity))/delete') > -1){
 		id = $routeParams.id;
-		AppService.get('//delete/' + id)		
+		AppService.get('/((entity))/delete/' + id)		
 		.then(
 			function(res){
 				$scope.message = "((Entity)) " + id + " successfully deleted ";
-				AppService.get('//index')		
+				AppService.get('/((entity))/index')		
 				.then(
 					function(res){
-						$scope.s = res;
+						$scope.((entity))s = res;
 					},
 					function(err){
 						
@@ -37,10 +37,10 @@
 			},
 			function(err){
 				$scope.message = err;
-				AppService.get('//index')		
+				AppService.get('/((entity))/index')		
 				.then(
 					function(res){
-						$scope.s = res;
+						$scope.((entity))s = res;
 					},
 					function(err){
 						
@@ -50,9 +50,9 @@
 		)
 
 	}
-	else if($location.path().indexOf('//get') > -1){
+	else if($location.path().indexOf('/((entity))/get') > -1){
 		id = $routeParams.id;
-		AppService.get('//get/' + id)		
+		AppService.get('/((entity))/get/' + id)		
 		.then(
 			function(res){
 				$scope.Current((Entity)) = res;
@@ -63,10 +63,10 @@
 		)
 	}
 	else {
-		AppService.get('//index')		
+		AppService.get('/((entity))/index')		
 		.then(
 			function(res){
-				$scope.s = res;
+				$scope.((entity))s = res;
 			},
 			function(err){
 				
