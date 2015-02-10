@@ -116,6 +116,7 @@ class App
     def populate_angular_controllers
         @specs['documents'].each{|doc|
             entity = Entity.new(doc)
+            Angular.addControllerCode(@output_path + "public/js/app.js", entity)
             Angular.addEntity(@output_path + "public/js/app.js", entity)
             Angular.editEntity(@output_path + "public/js/app.js", entity)
             Angular.indexEntity(@output_path + "public/js/app.js", entity)

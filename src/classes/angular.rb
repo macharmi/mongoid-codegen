@@ -1,46 +1,3 @@
-ANGULAR_EDIT = "
-    	$scope.((Entity))Edit = function(((entity))){
-		AppService.post('/((entity))/edit', $.param(((entity))))
-		.then(
-			function(res){
-				$location.path('/((entity))/get/' + ((entity)).id.$oid);
-			},
-			function(err){
-				alert(err);
-			}
-		)
-	}
-"
-
-
-ANGULAR_ADD = "
-	$scope.((Entity))Add = function(((entity))){
-		AppService.post('/((entity))/add', $.param(((entity))))
-		.then(
-			function(res){
-				$location.path('/((entity))/get/' + res.id.$oid);
-			},
-			function(err){
-				$scope.message = err
-			}
-		)
-	}
-"
-
-ANGULAR_INDEX = "
-	$scope.Get = function(((entity))){
-		AppService.get('/((entity))/index')
-		.then(
-			function(res){
-				return res;
-			},
-			function(err){
-				return(err);
-			}
-		)
-"
-
-
 class Angular
     def self.addRoute(file, route, template,controller)
 		code =	"\t\t\t.when('#{route}', {\n"
@@ -75,22 +32,29 @@ class Angular
 	    end
     end
     
+    def self.addControllerCode(path, entity)
+        code = File.read('js/controller.js');
+        code = code.gsub("((entity))",entity.name.downcase)
+        code = code.gsub("((Entity))",entity.name.downcase)
+        self.injectControllerCode(path,entity,code)
+    end
+    
     def self.addEntity(path, entity)
-        code = ANGULAR_ADD
+        code = File.read('js/add.js');
         code = code.gsub("((entity))",entity.name.downcase)
         code = code.gsub("((Entity))",entity.name.downcase)
         self.injectControllerCode(path,entity,code)
     end
 
     def self.indexEntity(path, entity)
-        code = ANGULAR_INDEX
+        code = File.read('js/index.js');
         code = code.gsub("((entity))",entity.name.downcase)
         code = code.gsub("((Entity))",entity.name.downcase)
         self.injectControllerCode(path,entity,code)
     end    
 
     def self.editEntity(path, entity)
-        code = ANGULAR_EDIT
+        code = File.read('js/edit.js');
         code = code.gsub("((entity))",entity.name.downcase)
         code = code.gsub("((Entity))",entity.name.downcase)
         self.injectControllerCode(path,entity,code)
