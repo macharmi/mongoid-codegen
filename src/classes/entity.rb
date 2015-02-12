@@ -20,6 +20,10 @@ class Entity
         return code
     end
     
+    # **************************************
+    # HTML Form for creation and edition
+    # **************************************
+    # TODO move to HTML static class
     def create_form
         code = "{{message}}\n"
         code += "<form ng-submit='action(#{@doc['name'].downcase})' ng-show='!message'>\n"
@@ -37,6 +41,10 @@ class Entity
         code = code + "</form>"
         return code
     end    
+    # **************************************
+    # HTML index with all the records
+    # **************************************
+    # TODO move to HTML static class    
     
     def create_list
         code = "<h3>#{@doc['name'].downcase.capitalize} list</h3>\n"
@@ -56,7 +64,8 @@ class Entity
         code += "\t\t\t<tr ng-repeat='#{@doc['name'].downcase} in #{@doc['name'].downcase}s'>\n"
         @doc['fields'].each{ |field|
             if field['name'] == 'id' then
-                code += "\t\t\t\t<td>{{#{@doc['name'].downcase}.#{field['name']}.$oid}}</td>\n"
+                id = "{{#{@doc['name'].downcase}.#{field['name']}.$oid}}"
+                code += "\t\t\t\t<td><a href='/#/#{@doc['name'].downcase}/get/#{id}'>#{id}</a></td>\n"
             else
                 code += "\t\t\t\t<td>{{#{@doc['name'].downcase}.#{field['name']}}}</td>\n"
             end
@@ -87,7 +96,7 @@ class Entity
         code += "end\n\n"
 
         code += "post '/#{@doc['name'].downcase}/new' do \n"
-        code += "\t" + @doc['name'].downcase.capitalize + '.create('
+        code += "\t#{@doc['name'].downcase}=" + @doc['name'].downcase.capitalize + '.new('
         @doc['fields'].each{ |field|
             if field["name"] != "id" then
                 code = code + "\t\t:" + field["name"] +" => params[:" + field["name"] + "]"
@@ -96,7 +105,10 @@ class Entity
                 end
             end
         }
-        code += "\n\t)\n"
+        code += "\n\t)\n"            
+        code += "\t#{@doc['name'].downcase}.save!\n"    
+	  	code += "\t#{@doc['name'].downcase} = #{@doc['name'].downcase.capitalize}.where(id: #{@doc['name'].downcase}.id)\n"
+  		code += "\t#{@doc['name'].downcase}.first.to_json\n"
         code += "end\n\n"
 
         code += "post '/#{@doc['name'].downcase}/edit' do \n"
@@ -121,6 +133,12 @@ class Entity
             
         code += "get '/#{@doc['name'].downcase}/index' do\n"
         code += "\t#{@doc['name'].downcase.capitalize}.all.to_json\n"
+        code += "end\n\n"
+            
+            
+        code += "get '/#{@doc['name'].downcase}/delete/:id' do\n"
+        code +=  "\t#{@doc['name'].downcase} = #{@doc['name'].downcase.capitalize}.where(id: params[:id]).delete\n"
+        code +=  "\t'success'\n"
         code += "end\n\n"
         
         return code

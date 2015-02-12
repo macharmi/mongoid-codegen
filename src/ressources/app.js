@@ -66,7 +66,7 @@ myApp.config(['$routeProvider',
 		$routeProvider
 			/* <<include_routes>> */
 			.otherwise({
-				templateUrl: '404.htm',
+				templateUrl: 'views/layout/404.htm',
 				controller:  'AppController'		
 		});
 	}

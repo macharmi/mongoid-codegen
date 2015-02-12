@@ -23,6 +23,7 @@ class App
         FileUtils.cp("./ressources/nav.erb", "#{@output_path}views/layout")
         FileUtils.cp("./ressources/sidebar.erb", "#{@output_path}views/layout")
         FileUtils.cp("./ressources/footer.erb", "#{@output_path}views/layout")
+        FileUtils.cp("./ressources/404.htm", "#{@output_path}views/layout")
         FileUtils.cp("./ressources/db.yml", "#{@output_path}config")
         FileUtils.cp("./ressources/style.css", "#{@output_path}/public/css")
         FileUtils.cp("./ressources/app.js", "#{@output_path}/public/js")
@@ -99,7 +100,9 @@ class App
                 "views/#{ doc['name'].downcase}/#{doc['name'].downcase}.htm", "#{ doc['name'].downcase.capitalize}Controller");
             Angular.addRoute(@output_path + "public/js/app.js","/#{ doc['name'].downcase}/index",
                 "views/#{ doc['name'].downcase}/index.htm", "#{ doc['name'].downcase.capitalize}Controller");
-        }
+            Angular.addRoute(@output_path + "public/js/app.js","/#{ doc['name'].downcase}/delete/:id",
+                "views/#{ doc['name'].downcase}/index.htm", "#{ doc['name'].downcase.capitalize}Controller");
+         }
     end
 
     # create angular controllers
